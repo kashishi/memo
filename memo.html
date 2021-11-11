@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memo</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <button class="add" id="add">
+     memo+
+  </button>
+
+  <div class="memo" style="display: none;">
+    <ul>
+      <li id="save">Save</li>
+      <li id="clear">Clear</li>
+    </ul>
+    <input type="text" id="input" placeholder="タイトル">
+    <textarea id="text_area" placeholder="内容"></textarea>
+  </div>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    $('#add').click(function(){
+      $('.memo').show();
+    })
+
+    $('#save').on('click', function () {
+      const data = {
+        title: $('#input').val(),
+        text: $('#text_area').val()
+      };
+      console.log(data);
+      const jsonData = JSON.stringify(data);
+      console.log(jsonData);
+      localStorage.setItem('memo', jsonData)
+    })
+
+    $('#clear').on('click', function () {
+      localStorage.removeItem('memo');
+      $('#input').val('')
+      $('#text_area').val('')
+    })
+
+    if (localStorage.getItem('memo')) {
+      const jsonData = localStorage.getItem('memo');
+      console.log(jsonData);
+      const data = JSON.parse(jsonData)
+      console.log(data);
+      $('#input').val(data.title);
+      $('#text_area').val(data.text);
+    }
+  </script>
+
+</body>
+</html>
